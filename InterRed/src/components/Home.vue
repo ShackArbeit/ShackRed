@@ -9,6 +9,7 @@
         <router-link to="/setting/profile"  style="margin-left:1rem;margin-right:1rem;">Start Profile Setting</router-link>
         <router-link to="/setting/app"  style="margin-left:1rem;margin-right:1rem;">Start App Setting</router-link>
         <router-link to="/setting/topic"  style="margin-left:1rem;margin-right:1rem;">Topic Setting</router-link>
+        <router-link to="/setting/end"  style="margin-left:1rem;margin-right:1rem;">Ending Setting</router-link>
       </p>
     </div>
 </template>

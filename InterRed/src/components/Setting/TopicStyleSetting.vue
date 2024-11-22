@@ -48,6 +48,7 @@
   position: relative;
   overflow:hidden;
   min-height:100vh;
+  padding-top:3rem;
 }
 .div {
   display: flex;

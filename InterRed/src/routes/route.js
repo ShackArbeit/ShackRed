@@ -5,6 +5,7 @@ import ProfileSetting from '../components/Setting/ProfileSetting.vue'
 import StartSetting from '../components/Setting/StartSetting.vue'
 import AppSetting from '../components/Setting/AppSetting.vue'
 import TopicStyleSetting from '../components/Setting/TopicStyleSetting.vue'
+import FinishSetting from '../components/Setting/FinishSetting.vue'
 
 export const router=createRouter({
      history:createWebHistory(),
@@ -14,6 +15,7 @@ export const router=createRouter({
          {path:'/setting/profile',component:ProfileSetting},
          {path:'/setting/app',component:AppSetting},
          {path:'/setting/topic',component:TopicStyleSetting},
+         {path:'/setting/end',component:FinishSetting},
      ]
 })
 
