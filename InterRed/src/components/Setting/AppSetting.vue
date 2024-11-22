@@ -123,6 +123,7 @@
   width:100%;
   max-height: 960px;
   position: relative;
+  box-sizing: border-box;
 }
  .frame-41 {
   padding: 53px 0px 53px 0px;
@@ -320,6 +321,11 @@
     }
     .div2{
         font-size:40px;
+    }
+}
+@media (max-width:480px){
+    .frame-42{
+         padding:50px;
     }
 }
 
