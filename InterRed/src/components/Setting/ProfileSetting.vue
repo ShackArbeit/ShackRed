@@ -1,5 +1,42 @@
 <script setup>
-
+import {ref,watch} from "vue"
+const previewImage=ref(null)
+const fileInput=ref(null)
+watch(previewImage,(newImage)=>{
+    if(newImage){
+       console.log('圖片已經更新了')
+    }
+})
+const onDrageOver=(event)=>{
+      console.log('開始拖放')
+      event.preventDefault()
+}
+const onDrop=(event)=>{
+     event.preventDefault()
+     const file=event.dataTransfer.files[0]
+     if(file){
+         const reader=new FileReader()
+         reader.onload=(event)=>{
+             previewImage.value=event.target.result
+             console.log("已經拖放檔案了")
+         }
+         reader.readAsDataURL(file)
+     }
+}
+const onFileChange=(event)=>{
+     const file=event.target.files[0]
+     if(file){
+         const reader=new FileReader()
+         reader.onload=(event)=>{
+            previewImage.value=event.target.result
+            console.log("已經上傳檔案了")
+         }
+         reader.readAsDataURL(file)
+     }
+}
+const triggerFileInput=()=>{
+     fileInput.value.click()
+}
 </script>
 
 
@@ -13,18 +50,33 @@
             <div class="div3">
               <div class="div4">選擇頭像</div>
               <div class="frame-4">
-                <div class="icon-buttons">
-                  <img class="user" />
-                </div>
-                <div class="icon-buttons2">
-                  <img class="user2"  />
-                </div>
-                <div class="icon-buttons2">
-                  <img class="user3" />
-                </div>
-                <div class="icon-buttons2">
-                  <img class="plus" />
-                </div>
+                 <div class="upload-container"
+                      @dragover.prevent="onDrageOver"
+                      @drop="onDrop"
+                      @click="triggerFileInput"
+                 >
+                      <input
+                         type="file"
+                         hidden
+                         ref="fileInput"
+                         @change="onFileChange"
+                         accept="image/*"
+                      />
+                      <div v-if="previewImage" class="preview">
+                           <img :src="previewImage" alt="上傳的大頭照"/>
+                      </div>
+                      <div v-else>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                            <mask id="mask0_59397_25883" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="40" height="40">
+                              <rect width="40" height="40" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_59397_25883)">
+                              <path d="M8.33333 35C7.41667 35 6.63194 34.6736 5.97917 34.0208C5.32639 33.3681 5 32.5833 5 31.6667V8.33333C5 7.41667 5.32639 6.63194 5.97917 5.97917C6.63194 5.32639 7.41667 5 8.33333 5H21.6667V8.33333H8.33333V31.6667H31.6667V18.3333H35V31.6667C35 32.5833 34.6736 33.3681 34.0208 34.0208C33.3681 34.6736 32.5833 35 31.6667 35H8.33333ZM10 28.3333H30L23.75 20L18.75 26.6667L15 21.6667L10 28.3333ZM28.3333 15V11.6667H25V8.33333H28.3333V5H31.6667V8.33333H35V11.6667H31.6667V15H28.3333Z" fill="#D1C3C3"/>
+                            </g>
+                          </svg>
+                   <p id="upload-text">點擊或拖放圖片至此</p>
+                      </div>
+                 </div>
               </div>
             </div>
             <div class="div5">
@@ -133,7 +185,7 @@
   color: #000000;
   text-align: center;
   font-family:NotoSansTc-Medium;
-  font-size: 16px;
+  font-size: 28px;
   line-height: 24px;
   letter-spacing: 0.15px;
   font-weight: 500;
@@ -152,29 +204,32 @@
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
+  border:2px solid red;
 }
-.icon-buttons {
-  background: #eef1f4;
-  border-radius: 86px;
-  padding: 12px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  height: 104px;
-  max-width: 104px;
-  position: relative;
-  overflow: hidden;
+.upload-container {
+            width: 70%;
+            /* max-width: 500px; */
+            height:200px; 
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            flex-direction: column;
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+     }
+.upload-container:hover {
+         background-color: #e9e9e9;
 }
-.user {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  overflow: visible;
-}
+.preview img {
+        width:100%;
+        height: 100%;     
+        border-radius: 10px;
+        object-fit: fill;
+ } 
 .user2 {
   flex-shrink: 0;
   width: 24px;
