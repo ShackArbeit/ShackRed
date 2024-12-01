@@ -1,10 +1,27 @@
 <script setup>
 import {ref,watch} from "vue"
+import { useRouter } from 'vue-router';
 const previewImage=ref(null)
 const fileInput=ref(null)
+const router=useRouter()
+const nameValue=ref(null)
+const textValue=ref(null)
+const checkShowInput=ref(false)
+const charCount = ref(0);
+const maxChars = 100;
 watch(previewImage,(newImage)=>{
     if(newImage){
        console.log('圖片已經更新了')
+    }
+})
+watch(textValue,(newValue)=>{
+    charCount.value=newValue.length
+    if(charCount.value>maxChars){
+         document.getElementsByClassName("character-count").color='red'
+         document.getElementById("text").borderColor="red"
+    }else{
+         document.getElementById("text-area").style.borderColor = "#7f7474";
+         document.getElementsByClassName("character-count").color='black'
     }
 })
 const onDrageOver=(event)=>{
@@ -36,6 +53,36 @@ const onFileChange=(event)=>{
 }
 const triggerFileInput=()=>{
      fileInput.value.click()
+}
+function goToLinkProfilePage() {
+    const textField2=document.getElementById("text-field2")
+    const textarea=document.getElementById("text-area")
+    if (!nameValue.value?.trim() || !textValue.value?.trim() || !previewImage.value) {
+        window.alert('請輸入名稱及簡介與頭象');
+        checkShowInput.value = true; 
+        textField2.style.borderColor='red'
+        textarea.style.borderColor='red'
+        textField2.style.color='red'
+        textarea.style.color='red'
+        textField2.classList.add("error-placeholder");
+        textarea.classList.add("error-placeholder");
+        return;
+    }
+    if (!nameValue.value?.trim() || !textValue.value?.trim()) {
+        window.alert('請輸入名稱及簡介');
+        checkShowInput.value = true; 
+        textField2.style.borderColor='red'
+        textarea.style.borderColor='red'
+        textField2.style.color='red'
+        textarea.style.color='red'
+        textField2.classList.add("error-placeholder");
+        textarea.classList.add("error-placeholder");
+        return;
+    }
+    checkShowInput.value = false; 
+    textField2.style.borderColor = "#7f7474";
+    textarea.style.borderColor = "#7f7474";
+    router.push("/setting/app");
 }
 </script>
 
@@ -82,21 +129,37 @@ const triggerFileInput=()=>{
             <div class="div5">
               <div class="div4">新增名稱與自我介紹</div>
               <div class="text-field">
-                    <input type="text" placeholder="輸入名稱"
-                    class="text-field2"  id="name">       
-                    <span class="warning" id="nameWarning">必填</span> <!-- 修正這裡的 id -->
-              </div>
-              <div class="text-field">
-                <div class="input-container" id="intro_container">
-                    <textarea placeholder="輸入自我介紹" class="text-area" id="intro" ></textarea>
-                    <div class="character-count">0/100</div>    
-                </div>   
-                <span class="warning" id="introWarning">必填</span>      
-                
-                </div>
+                    <input 
+                    type="text" 
+                    placeholder="輸入名稱"
+                    id="text-field2"  
+                    v-model="nameValue">       
+                    <span 
+                    class="warning" 
+                    v-if="checkShowInput"
+                    >必填</span>
+              </div>          
+              <div class="text-field3">
+                    <textarea 
+                    placeholder="輸入自我介紹"
+                    id="text-area"   
+                    class="input-container" 
+                    v-model="textValue"
+                    ></textarea>
+                    <div class="character-count">{{ charCount }}/{{ maxChars }}</div>  
+                    <span 
+                  class="warning" 
+                  v-if="checkShowInput"
+                  >必填</span> 
+                </div>  
+                 
             </div>
             <div class="div6">
-                <button class="button"  id="submitBtn" >下一步</button> 
+                <button 
+                :class="['button', { enabled: nameValue && textValue && previewImage }]"
+               
+                @click="goToLinkProfilePage"
+                >下一步</button> 
             </div>
           </div>
         </div>
@@ -204,21 +267,18 @@ const triggerFileInput=()=>{
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
-  /* border:2px solid red; */
 }
 .upload-container {
             width: 200px;
             height:200px; 
-             /* border: 2px dashed #ccc;  */
             display: flex;
             justify-content: center;
             align-items: center;
-            /* background-color: #f4f4f4; */
             flex-direction: column;
             cursor: pointer;
             text-align: center;
             position: relative;
-     }
+}
 .upload-container:hover {
          background-color: #e9e9e9;
 }
@@ -232,27 +292,6 @@ const triggerFileInput=()=>{
         border-radius: 50%;    
         object-fit: fill;
  } 
-.user2 {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  overflow: visible;
-}
-.user3 {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  overflow: visible;
-}
-.plus {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  overflow: visible;
-}
 .div5 {
   display: flex;
   flex-direction: column;
@@ -266,7 +305,6 @@ const triggerFileInput=()=>{
 .text-field {
   border-radius: 4px 4px 0px 0px;
   width: 100%;
-  height:66px;
   max-width: 470px;
   position: relative;
   display: flex;
@@ -274,25 +312,29 @@ const triggerFileInput=()=>{
   margin-bottom: 10px;
 }
 /* 填寫自我介紹部分的容器 */
+.text-field3 {
+  display:flex;
+  border-radius: 4px 4px 0px 0px;
+  width: 100%;
+  max-width: 470px;
+  position: relative;
+  flex-direction: column;
+  display: flex;
+  margin-bottom: 30px;
+}
 .input-container {
     width: 100%;
+    min-height:200px;
     position: relative;
-    border: 1px solid #7f7474;
+    box-sizing: border-box;
+    border: 1px solid #7f7474; 
     border-radius: 10px;
-    padding: 10px;
-    margin-top:-2rem;
+    padding: 20px; 
+    font-size:18px;
 }
-/* 以下為填寫框框內的 Placeholder  */
-.text-area {
+ #text-area {
     width:100%; 
-    height: 80px; 
-    border: none; 
-    resize: none; 
-    font-size: 20px;
-    font-family: Inter-Regular;
-    outline: none;
-    padding-left: 1rem;
-}
+} 
 .character-count {
     font-size:20px;
     color: #7f7474;
@@ -302,11 +344,11 @@ const triggerFileInput=()=>{
     align-self: flex-end; 
 }
 /* 新增名稱的輸入框 */
-.text-field2 {
+#text-field2 {
     padding-left:1.5rem;
     cursor:pointer;
     width:100%;
-    height:100%;
+    height:66px;
     border-radius: 1000px;
     border:1px solid #7f7474;
     font-size: 20px;
@@ -317,11 +359,14 @@ const triggerFileInput=()=>{
     outline: none;
     font-family: Inter-Regular;
 }
+.error-placeholder::placeholder {
+    color: red;
+}
 /* 確定的按鈕預設是灰色 */
 .button {
     max-width: 470px;
-    /* background:#3a3131; */
-    background-color: gray;
+    background:#3a3131; 
+    /* background-color: gray; */
     border-radius: 100px;
     font-size: 14px;
     cursor:pointer;
@@ -335,47 +380,34 @@ const triggerFileInput=()=>{
     position: relative;
     overflow: hidden;
 }
+.enabled {
+    background-color: green;
+}
 /* 有輸入內容按鈕才會顯示可點擊的狀態 */
-.button.enabled {
+/* .button.enabled {
     background-color: #3a3131;
     cursor: pointer;
 }
   
+
 .button:disabled {
     background-color:gray;
-}
+} */
 /* 若輸入空白後會顯示的隱藏 Class */
 .warning {
-    /* color: red; */
-    font-size: 14px;
-    margin-top:.5rem;
+    color: black; 
+    font-size: 24px;
+    margin-top:.5rem; 
     font-weight:600;
-    visibility: hidden; 
+    text-align: right;
+    border:2px solid red;
 }
-.text-field2:hover{
+/* .text-field2:hover{
     border:2px solid #6c86f5;
-}
-.text-field2:focus{
+} */
+/* .text-field2:focus{
     border:2px solid #fa3c76;
-} 
-
-.text-field3 {
-    padding-left:1rem;
-    cursor:pointer;
-    width:100%;
-    height:100%;
-    border-radius: 1000px;
-    border:1px solid #7f7474;
-    font-size: 20px;
-    letter-spacing:-0.02em; 
-    font-weight: 400;
-    color: #4e4545;
-    text-align: left;
-    outline: none;
-    font-family: Inter-Regular;
-}
-
-
+}  */
 
 
 .div6 {

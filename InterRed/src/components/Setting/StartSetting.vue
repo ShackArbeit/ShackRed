@@ -1,9 +1,16 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { ref } from 'vue';
+const inputRef=ref(null)
 const router=useRouter()
 function goToProfileSettings(){
-     router.push('/setting/profile')
-     console.log('已經轉換了')
+     if(inputRef.value===null){
+       window.alert('請輸入一個使用者名稱 !')
+       return 
+     }
+     else{
+         router.push('/setting/profile')
+     }
 }
 </script>
 
@@ -16,8 +23,11 @@ function goToProfileSettings(){
           <div class="div3">
             <div class="div4">選擇你的使用者名稱，隨時可以修改。</div>
             <div class="text-field">   
-                      <input type="text" placeholder="mobiweb.x/ 使用者名稱"
-                      class="text-field2">       
+                      <input 
+                      type="text" 
+                      v-model="inputRef"
+                      placeholder="ShackWeb / 使用者名稱"
+                      class="text-field2">   
             </div>
           </div>
           <div class="div5">
