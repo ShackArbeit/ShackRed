@@ -204,18 +204,16 @@ const triggerFileInput=()=>{
   align-self: stretch;
   flex-shrink: 0;
   position: relative;
-  border:2px solid red;
+  /* border:2px solid red; */
 }
 .upload-container {
-            width: 70%;
-            /* max-width: 500px; */
+            width: 200px;
             height:200px; 
-            border: 2px dashed #ccc;
-            border-radius: 15px;
+             /* border: 2px dashed #ccc;  */
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #f4f4f4;
+            /* background-color: #f4f4f4; */
             flex-direction: column;
             cursor: pointer;
             text-align: center;
@@ -224,10 +222,14 @@ const triggerFileInput=()=>{
 .upload-container:hover {
          background-color: #e9e9e9;
 }
+.preview{
+    height:100%;
+    width:100%;
+}
 .preview img {
         width:100%;
         height: 100%;     
-        border-radius: 10px;
+        border-radius: 50%;    
         object-fit: fill;
  } 
 .user2 {
@@ -344,7 +346,7 @@ const triggerFileInput=()=>{
 }
 /* 若輸入空白後會顯示的隱藏 Class */
 .warning {
-    color: red;
+    /* color: red; */
     font-size: 14px;
     margin-top:.5rem;
     font-weight:600;
