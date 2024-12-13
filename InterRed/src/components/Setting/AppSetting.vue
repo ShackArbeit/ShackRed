@@ -1,5 +1,22 @@
 <script setup>
-
+import { ref,watch } from 'vue';
+const socialAccount=ref([
+  {Name: 'Instagram',Image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkw4t_QTzNd6OWYS9OPOxKYU_dwYmk7w-QhA&s',Value:''},
+  {Name:'X',Image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR1Tb8teKM8VPmbsjyUg86TexpO8rZxoT17fD52fg3dwpo-R8LN3sIZH6aCE0RlllaY20&usqp=CAU',Value:''},
+  {Name:'TikTok',Image:'https://tfc-taiwan.org.tw/sites/default/files/imce/images/1_TikTok.png',Value:''},
+  {Name:'Facebook',Image:'https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg',Value:''},
+  {Name:'YouTube',Image:'https://yt3.googleusercontent.com/584JjRp5QMuKbyduM_2k5RlXFqHJtQ0qLIPZpwbUjMJmgzZngHcam5JMuZQxyzGMV5ljwJRl0Q=s900-c-k-c0x00ffffff-no-rj',Value:''},
+  {Name:'個人連結',Image:'https://static-00.iconduck.com/assets.00/create-link-icon-1024x1024-magrbcee.png',Value:''}
+])
+watch(
+  socialAccount,
+  (newVal,oldVal)=>{
+    console.log('Value 正在改變中')
+     console.log(newVal)
+     console.log(oldVal)
+  },
+  {deep:true}
+)
 
 </script>
 
@@ -12,77 +29,21 @@
             <div> 
               <div class="div2">連結你的社群帳號</div>
             </div> 
-            <div class="div3">
-              <div class="frame-9">
+            <div class="div3" v-for="(account,index) in socialAccount">
+              <div class="frame-9" :key="index">
                 <div class="frame-26">
                   <div class="skill-icons-instagram">
-                    <img class="group" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkw4t_QTzNd6OWYS9OPOxKYU_dwYmk7w-QhA&s" />
+                    <img class="group" :src="account.Image" />
                   </div>
                </div>  
                 <div class="text-field">
                           <input 
                           class="text-field2"
-                           placeholder="輸入 Instagram 使用者名稱"
+                          :placeholder="`請輸入 ${account.Name} 使用者名稱`"
+                          v-model="account.Value"
                           type="text">
                 </div>
-              </div>
-              <div class="frame-9">
-                <div class="frame-26">
-                  <img class="x" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR1Tb8teKM8VPmbsjyUg86TexpO8rZxoT17fD52fg3dwpo-R8LN3sIZH6aCE0RlllaY20&usqp=CAU" />
-                </div>
-                <div class="text-field">
-                    <input 
-                    type="text"
-                    class="text-field2" 
-                    placeholder="輸入 X 使用者名稱">
-                </div>
-              </div>
-              <div class="frame-9">
-                <div class="frame-26">
-                  <img class="tictok" src="https://tfc-taiwan.org.tw/sites/default/files/imce/images/1_TikTok.png" />
-                </div>
-                <div class="text-field">
-                    <input 
-                    class="text-field2"
-                     placeholder="輸入 TikTok 使用者名稱"
-                    type="text">
-                </div>
-              </div>
-              <div class="frame-9">
-                <div class="frame-26">
-                  <img class="facebook" src="https://upload.wikimedia.org/wikipedia/commons/b/b9/2023_Facebook_icon.svg" />
-                </div>
-                <div class="text-field">
-                    <input 
-                    class="text-field2"
-                     placeholder="輸入 Facebook 使用者名稱"
-                    type="text">
-                </div>
-              </div>
-              <div class="frame-9">
-                <div class="frame-26">
-                  <div class="you-tube">
-                    <img class="group-6" src="https://yt3.googleusercontent.com/584JjRp5QMuKbyduM_2k5RlXFqHJtQ0qLIPZpwbUjMJmgzZngHcam5JMuZQxyzGMV5ljwJRl0Q=s900-c-k-c0x00ffffff-no-rj" />
-                  </div>
-                </div>
-                <div class="text-field">
-                    <input 
-                    class="text-field2"
-                     placeholder="輸入 YouTube 使用者名稱"
-                    type="text">
-                </div>
-              </div>
-              <div class="frame-9">
-                <div class="frame-26">
-                  <img class="link" src="https://static-00.iconduck.com/assets.00/create-link-icon-1024x1024-magrbcee.png" />
-                </div>
-                <div class="text-field">
-                    <input 
-                    class="text-field2"
-                     placeholder="輸入網站連結"
-                    type="text">
-                </div>
-              </div>
+              </div>       
             </div>  
             <div class="buttonContainer">
                 <button class="button2"> 

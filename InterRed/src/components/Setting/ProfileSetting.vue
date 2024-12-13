@@ -62,8 +62,6 @@ function goToLinkProfilePage() {
         checkShowInput.value = true; 
         textField2.style.borderColor='red'
         textarea.style.borderColor='red'
-        textField2.style.color='red'
-        textarea.style.color='red'
         textField2.classList.add("error-placeholder");
         textarea.classList.add("error-placeholder");
         return;
@@ -73,8 +71,6 @@ function goToLinkProfilePage() {
         checkShowInput.value = true; 
         textField2.style.borderColor='red'
         textarea.style.borderColor='red'
-        textField2.style.color='red'
-        textarea.style.color='red'
         textField2.classList.add("error-placeholder");
         textarea.classList.add("error-placeholder");
         return;
@@ -400,7 +396,6 @@ function goToLinkProfilePage() {
     margin-top:.5rem; 
     font-weight:600;
     text-align: right;
-    border:2px solid red;
 }
 /* .text-field2:hover{
     border:2px solid #6c86f5;
